@@ -65,7 +65,7 @@ const PrivateRoute = ({ allowedRoles, requireAdmin = false }) => {
     );
   }
 
-  // Check if user role is allowed 123
+  // Check if user role is allowed 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
     // Redirect based on role
     let redirectPath = '/login';
