@@ -9,15 +9,16 @@ import {Academy,Reports} from './pages/Academy.jsx';
 import {Teachers,TeacherProfile,Booking,Enrollments,Timetable} from './pages/Scheduling.jsx';
 import AccountSettings from './pages/AccountSettings.jsx';
 import './booking.css';
+import './classroom.css';
 import Messages from './pages/Messages.jsx';
 import Classroom from './pages/Classroom.jsx';
 const libraryNav=[['/quran','The Quran','book'],['/hadith','Hadith library','hadith'],['/bookmarks','Saved references','bookmark']];
 const roleNav={
- student:[['/dashboard','Overview','grid'],['/courses','Explore courses','cap'],['/teachers','Find a teacher','users'],['/enrollments','My enrollments','checkList'],['/classes','My timetable','calendar'],['/assignments','Assignments','file'],['/progress','My progress','chart'],['/fees','Fees & payments','wallet'],['/messages','Messages','message']],
+ student:[['/dashboard','Overview','grid'],['/courses','Explore courses','cap'],['/teachers','Find a teacher','users'],['/enrollments','My enrollments','checkList'],['/classes','My timetable','calendar'],['/assignments','Assignments','file'],['/attendance','My attendance','checkList'],['/progress','My progress','chart'],['/fees','Fees & payments','wallet'],['/messages','Messages','message']],
  ulma:[['/dashboard','Overview','grid'],['/classes','My timetable','calendar'],['/students','My students','users'],['/enrollments','Enrollments','cap'],['/assignments','Assignments','file'],['/attendance','Attendance','checkList'],['/reports','Monthly reports','chart'],['/messages','Messages','message']],
- admin:[['/dashboard','Academy overview','grid'],['/users','People & approvals','users'],['/courses','Courses','cap'],['/enrollments','Enrollments','checkList'],['/classes','Classes & timetable','calendar'],['/assignments','Assignments','file'],['/attendance','Attendance','checkList'],['/fees','Fee management','wallet'],['/reports','Reports','chart'],['/audit','Audit trail','shield']]
+ admin:[['/dashboard','Academy overview','grid'],['/users','People & approvals','users'],['/courses','Courses','cap'],['/enrollments','Enrollments','checkList'],['/fees','Fee management','wallet'],['/reports','Reports','chart'],['/audit','Audit trail','shield']]
 };
-const access={enroll:['student'],dashboard:['student','ulma','admin'],enrollments:['student','ulma','admin'],classes:['student','ulma','admin'],class:['student','ulma','admin'],assignments:['student','ulma','admin'],progress:['student'],fees:['student','admin'],messages:['student','ulma'],attendance:['ulma','admin'],reports:['student','ulma','admin'],students:['ulma','admin'],users:['admin'],audit:['admin'],notifications:['student','ulma','admin'],settings:['student','ulma','admin']};
+const access={enroll:['student'],dashboard:['student','ulma','admin'],enrollments:['student','ulma','admin'],classes:['student','ulma'],class:['student','ulma'],assignments:['student','ulma'],progress:['student'],fees:['student','admin'],messages:['student','ulma'],attendance:['student','ulma'],reports:['student','ulma','admin'],students:['ulma','admin'],users:['admin'],audit:['admin'],notifications:['student','ulma','admin'],settings:['student','ulma','admin']};
 export default class App extends React.Component{
  state={path:canonical(location.pathname+location.search),user:null,authLoading:true,theme:storeGet('noor-theme','light'),menu:false,search:false,searchText:'',toast:null,connected:false,guestBookmarks:storeGet('noor-bookmarks',[]),academyName:'Noor Academy'};
  socket=null;listeners=new Set();toastTimer=null;live=true;

@@ -1,46 +1,333 @@
 {
-  "kind": "changed-and-new-files-only",
-  "version": "2.0.1",
+  "kind": "complete-updated-source-tree",
+  "version": "2.2.0",
   "baselineZip": "Quran_Frontend-main.zip",
-  "baselineZipSha256": "272018ce483fa5938956db726fe1946794c79b318844b8a208e26db27647781e",
-  "baselineNote": "Compared against the ZIP uploaded in this conversation, NOT a live GitHub branch.",
+  "baselineZipSha256": "382adaed7f38e8d7a28a209292757f957fbd2fb0f160e8b855ae5fa1078257b3",
+  "baselineNote": "Compared against this task's uploaded ZIP, not a live deployment. Private user configuration is not included.",
   "metadataFile": "PATCH_MANIFEST.json",
   "new": [
     {
       "path": ".env.example",
-      "sha256": "45f7f3bf617b974b39bd97a063fb25339aa3abe29038dfe0c60d0d7c099c6e4a"
+      "sha256": "465e0c97194b20b94e58b45c41f89aa4de6ceb3ec9f0bac7b71be5133a7c18a7"
     },
     {
+      "path": "START_HERE_CLASSROOM.md",
+      "sha256": "7031355a65552f8ba75f6723bf9e2ba7f73111dcabb390502ec148b944e93be8"
+    },
+    {
+      "path": "docs/CLASSROOM_ARCHITECTURE.md",
+      "sha256": "c216dcfdd14e92cf7a68ea603a2696a474485150fe616549ddcb2da7ee2ba69d"
+    },
+    {
+      "path": "docs/CLASSROOM_TEST_REPORT.md",
+      "sha256": "02899d8eb83a2decd92a29a681b9d3da23bd106ac432d630f57ba769fb580663"
+    },
+    {
+      "path": "docs/README_BEFORE_CLASSROOM.md",
+      "sha256": "cd7e139a65c93f37d2f4b312fa0b784a3091b8010861b1ea1ef08945ae761bba"
+    },
+    {
+      "path": "docs/classroom-validation/README.md",
+      "sha256": "6739030d1637bfab85442e2eb70fd63c0c1aef805c85f911c8b2d7f621c9aed6"
+    },
+    {
+      "path": "docs/classroom-validation/mobile-preview.png",
+      "sha256": "dc93108fb6ac1205e0d114bb1d9866d4502ce9166fc1b90ac8db21539c0822a2"
+    },
+    {
+      "path": "docs/classroom-validation/teacher-preview.png",
+      "sha256": "37728fefd289e4206259b763d0bd70a51736a8ab72d97d68e777a1d571d2d082"
+    },
+    {
+      "path": "docs/classroom-validation/ui-results.json",
+      "sha256": "795256cd4546b46021212544e1cb8464fdc5dd715ad82fbc903ed9aafb13241d"
+    },
+    {
+      "path": "src/classroom.css",
+      "sha256": "7d2fdd926a860f2237e46f1b41821c2d73118cf9b8f101c3f500b11dfa5ea8c5"
+    },
+    {
+      "path": "src/components/ResourceDesk.jsx",
+      "sha256": "aa031be15c3ca903066fc273832bdb3bd4ae92288f413d0e8299e7c2870440aa"
+    }
+  ],
+  "modified": [
+    {
       "path": ".vercelignore",
-      "sha256": "a2398b30574ca8de6e1563a38cea562a99e3d5d4077344dadc0a9df73baab968"
+      "sha256": "297d7b9de056c87838e639e9a9b225052a180c85ffb1597be105088f4162f18e",
+      "previousSha256": "a2398b30574ca8de6e1563a38cea562a99e3d5d4077344dadc0a9df73baab968"
+    },
+    {
+      "path": "README.md",
+      "sha256": "923a766bfb7408d2517e2ea25154f830f73d4029393bfd8e654d3f88ec4c0481",
+      "previousSha256": "187e702ec7b2f05c07d39e4f559600f8b2e67c045ec72a6232affb1706936ebd"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "24ff9b2cd8cf2a9488aadc88cd42c36f8807db9910fe63ac3e7be17d0ba0e265",
+      "previousSha256": "9a3ea73aea0e94fe1eae75fb913aeb64ae5b6ebc7d2b8e641693f660afeb8163"
+    },
+    {
+      "path": "package.json",
+      "sha256": "334b563ed5bf10deb1ffcf7cdf036f96775eb377f90b8d00d3c2e86280244f17",
+      "previousSha256": "4d06f04dfc51de55d0469ea07a20566ec93d1ebd2db5d2f0cf74f62eb8dc238d"
+    },
+    {
+      "path": "scripts/clean-legacy.mjs",
+      "sha256": "579b6090f88d1987fbda8e101ab52b5be36cbc240d37f63c220d6f6c2dfd636d",
+      "previousSha256": "27f82480b6a06547a01cfc326055d767d34726d2f271fbfb64d80414bc94596c"
+    },
+    {
+      "path": "src/App.jsx",
+      "sha256": "b7a09574251bfbb86124da4ec266482751aa1f77043f6a7e3110fba76236f448",
+      "previousSha256": "cfa8967d8469cdf6a90461ea73a7f92a9662b16280f61eb1d56868fb032baabb"
+    },
+    {
+      "path": "src/pages/Academy.jsx",
+      "sha256": "5854c3886a93d217ecedff04666a095fed1bec2b761bb32810826f37ad41abb0",
+      "previousSha256": "146b82f53a90555cfff3828647a09f9cd72397bfb2e63a8a0200706b969a5a72"
+    },
+    {
+      "path": "src/pages/Classroom.jsx",
+      "sha256": "dea36b5e309c386812d19aa875541117ca073ad70543ed6e82e3836cba73dde9",
+      "previousSha256": "bbdd58fa1f4ac55ce7b0e30639fb02ee991ccf4472605a53077404f4d0389552"
+    },
+    {
+      "path": "src/pages/Home.jsx",
+      "sha256": "26598eb9ff5d1289f312ffe2a8f21a029841d211a25ce417a53aae21ce0c51ad",
+      "previousSha256": "687630d590c0efba7f941cc07eb99c25805195418396eeded85eec85e7f02b88"
+    },
+    {
+      "path": "src/pages/Scheduling.jsx",
+      "sha256": "5483e7aba1f850d36a63524c17ec8b0c213c5221d0444eba10ed11806a6d2491",
+      "previousSha256": "1a11f3a6259a2ad7d8e3d06fb53cc09d85570e57dc66c07d1551f96ddf9985d3"
+    },
+    {
+      "path": "vercel.json",
+      "sha256": "50b29bbf594466bd6dbcb67f443dfcca9f49cae5a327f3f19ab08fabd418a7ed",
+      "previousSha256": "423328e4613d5eb3fd53f7fa6eced205fbc68d5eb1a4db4709d269cea24173f2"
+    }
+  ],
+  "unchanged": [
+    {
+      "path": ".gitignore",
+      "sha256": "8fcc60e708710fb00c79f60b2deb7dcce763f59da9ebd2cd9383a1018d1b61d4"
+    },
+    {
+      "path": "BOOKING_PATCH_MANIFEST.json",
+      "sha256": "483816bff34477dba8d026f480c38ca0f934b0663926ff4de390f11cb47f0580"
+    },
+    {
+      "path": "BOOKING_START_HERE.md",
+      "sha256": "1de968588272cb9cf52f874834752444a57ec1a70362e8228dcfe952febd1c51"
     },
     {
       "path": "UPDATE_GUIDE.md",
       "sha256": "87e23cfb66e45678c0bd44ec565e7b957032328e1533ba9eac2a77551f405deb"
     },
     {
-      "path": "scripts/clean-legacy.mjs",
-      "sha256": "27f82480b6a06547a01cfc326055d767d34726d2f271fbfb64d80414bc94596c"
+      "path": "docs/BOOKING_UPDATE.md",
+      "sha256": "5fd9f33da9870be24f9f47955f0c0e2195a39ceb00cfe72cad529955ece71597"
+    },
+    {
+      "path": "eslint.config.js",
+      "sha256": "da0cbf3213f2994741024e2aa5165d017e0345f389dcd2f8a0db97fee7289d1b"
+    },
+    {
+      "path": "index.html",
+      "sha256": "1f365b4d6337e55ff7b0b14b267a3370607cec47acc5f186d5db9c7d2bbe768d"
+    },
+    {
+      "path": "postcss.config.js",
+      "sha256": "ace8ce3bf9fb1df76578bd57a304856ea28d4ff42e1375e1f9636af570962f5c"
+    },
+    {
+      "path": "src/App.css",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "src/booking.css",
+      "sha256": "4370e71c75f4f4b0e1843dd224f2c1a5e258bd7ad02b6174fe71824f1f52e251"
+    },
+    {
+      "path": "src/components/Assignment/AssignmentCard.jsx",
+      "sha256": "3dacea59dae5f8f65b8584d97bb2d916e8a42eb5941ad4e6eead3aed00bf7c8a"
+    },
+    {
+      "path": "src/components/BookingUI.jsx",
+      "sha256": "0696444b8d50cf538830581cfe31ee5fddaf31fb757e5f100ccb7d7f2e433973"
+    },
+    {
+      "path": "src/components/Chat/ChatList.jsx",
+      "sha256": "80db0a88e656e065e75928f5b0c503c80b89bc704f8706ea16bfa3b58ee350da"
+    },
+    {
+      "path": "src/components/Chat/ChatSidebar.jsx",
+      "sha256": "8b38eec11d1a6ab5bb89e258e8cda748311393abb035b45a1b7140085ecf6999"
+    },
+    {
+      "path": "src/components/Chat/StudentChat.jsx",
+      "sha256": "47f14d906bf42eb8adaefbe06e25f15de93961e65a0b4bd7ed7b8787be10da1a"
+    },
+    {
+      "path": "src/components/Chat/UlmaChat.jsx",
+      "sha256": "a76ceb090859d3e92b266c09111973aa706c7a2df59057d02de541fb0224ec7f"
+    },
+    {
+      "path": "src/components/PrivateRoute.jsx",
+      "sha256": "36e9b80fd3c4642f20bffbb923d5ad4472e582867e001f16c239837481911182"
+    },
+    {
+      "path": "src/components/Progress/ProgressChart.jsx",
+      "sha256": "2c50c2e5217c6132023ec610e161b55ba48e20958eb8877f769717118f2f480e"
+    },
+    {
+      "path": "src/components/Quran/AudioPlayer.jsx",
+      "sha256": "919d775d297710f04de710170a64952e1c7edc6e34d29e8acbe3700b3a83dbdd"
+    },
+    {
+      "path": "src/components/Quran/AyahCard.jsx",
+      "sha256": "fe4453329fb5e03ad858280bd9f889bc5e8830ad72999bb8116a3d2a000a69da"
+    },
+    {
+      "path": "src/components/Quran/BookmarksPanel.jsx",
+      "sha256": "76b7aa327d1bb470be5744b478222c91d5eedb8b756cdc786ff8721e4e8f0df0"
+    },
+    {
+      "path": "src/components/Quran/NavigationBar.jsx",
+      "sha256": "636aae30a7776468496fdbde4f7da81259419a1b351cfeafe3837836f9a8056b"
+    },
+    {
+      "path": "src/components/Quran/QuranReader.jsx",
+      "sha256": "d504bff90fc6e0411b2ac80e62c622fd19c5b30993d2d6d09b92f191685cde5e"
+    },
+    {
+      "path": "src/components/Quran/QuranSearch.jsx",
+      "sha256": "f288413975ff949f4dc1c7fdb6a0b59d8a458b281d2a3ff40dade4ce4f549d20"
+    },
+    {
+      "path": "src/components/Quran/QuranViewer.jsx",
+      "sha256": "81657b9369e5d016abb5cb2f7fb76f2b425583c3f576fe9d9d00b58e54a14dec"
+    },
+    {
+      "path": "src/components/Quran/SettingsPanel.jsx",
+      "sha256": "94b73cb82065df67b02c699d931b0d70642f245c89efad6067ec2e2a3f809d64"
+    },
+    {
+      "path": "src/components/Quran/StatisticsPanel.jsx",
+      "sha256": "c8694fa0b8d5d120bdd752afc3247bcc497f4515412f4ce0e291e2b3e8365e0d"
+    },
+    {
+      "path": "src/components/Quran/SurahList.jsx",
+      "sha256": "98cf8808892f447bf5f2fa3374781648bc982ecb3002d0e03b899c47793fd98a"
+    },
+    {
+      "path": "src/components/Quran/TafsirPanel.jsx",
+      "sha256": "07e34b6f6f35d7383d5c319661836b1da763658f64b18bbd302585b989855322"
+    },
+    {
+      "path": "src/components/Quran/index.js",
+      "sha256": "f64e772bf62db090dad5c8d4eb33c609828e663c578ef93e05dc63e86a787ac9"
+    },
+    {
+      "path": "src/components/ScheduleDisplay.jsx",
+      "sha256": "814022fa3a5d36a4443c5fc833622a14a76362480c4baf683775d4a44daceb27"
     },
     {
       "path": "src/components/UI.jsx",
       "sha256": "6ba26b423f479760b04ac6cdccc1bc68280adce87ca7061ac01afa12d933c8bf"
     },
     {
+      "path": "src/components/layout/AdminLayout.jsx",
+      "sha256": "2717d245a5cd7cfbdb559d1717001d9f1dad994fe8a13f4c62f27c3b58ace205"
+    },
+    {
+      "path": "src/components/layout/Layout.jsx",
+      "sha256": "d2e2ef7c2039b89b1c3a491fd094419ed3bad376f95635b3df1bc54397cd980b"
+    },
+    {
+      "path": "src/components/layout/Navbar.jsx",
+      "sha256": "98191b6bcee0894f3842dd447e012c438b20e64f69fa99116922bfe996db5e2f"
+    },
+    {
+      "path": "src/config/axios.js",
+      "sha256": "8c6207171ee31a5d34a5efaaffb53e1e2b5698a04bfd595f5e1d56ff2b3e7159"
+    },
+    {
+      "path": "src/context/AuthContext.jsx",
+      "sha256": "f20b8dbcaaa9891a5dc3aa7670a21ef1d4dee546e3d3ac612c3a6424f969e8e6"
+    },
+    {
+      "path": "src/context/SystemSettingsContext.jsx",
+      "sha256": "ba1426c02106b93ab8f5b13fdb1d188b47d01f308e5c3b8e4c90500d246b8bbc"
+    },
+    {
+      "path": "src/context/ThemeContext.jsx",
+      "sha256": "e96694334c85f184ecdcada32ae84b4690e9279366ef8d55e698edda7409b991"
+    },
+    {
+      "path": "src/hooks/useMediaQuery.js",
+      "sha256": "8d3849ae39ee956ea46d3d098f896556d3a3a55cca2a361022b68f2e129d7c76"
+    },
+    {
+      "path": "src/index.css",
+      "sha256": "cc1a7ad0d019ddb1d32d0ecb588ba0ac26ce41d8625dd6c366348b25f83a28ec"
+    },
+    {
       "path": "src/lib/api.js",
       "sha256": "979c573da18ed5cba49b405092c97be0a2296e7a21c214aa9e86d33aa82a9c7c"
     },
     {
-      "path": "src/pages/Academy.jsx",
-      "sha256": "d462bbd226ed978e65fbb34e41c9be4d57e9b8e8bd59bc231bd0e6e9065f87c9"
+      "path": "src/lib/countries.js",
+      "sha256": "5873e48fb78988b2f2060c3f8f8fea26e7491a526a174aca504ba8e65a9022d7"
+    },
+    {
+      "path": "src/lib/time.js",
+      "sha256": "ee1f08ea59dd4b07bbb8e6bacec0781926e1b59d8547bfaf188a7952c63b59eb"
+    },
+    {
+      "path": "src/main.jsx",
+      "sha256": "bff7940aa0d526751cacd8f05d24891ee890a2f74f653fb3128ead4638a256d9"
+    },
+    {
+      "path": "src/pages/AccountSettings.jsx",
+      "sha256": "9e38ec3ead16494c5b12acaa715094c66562155dacc82b813706a88c7c619784"
     },
     {
       "path": "src/pages/Auth.jsx",
-      "sha256": "44ac14edd6d563dac35e99cfc78cd8cd3108d49a1d22627bab6991b162b560ac"
+      "sha256": "37143a2e38708568bd01f346cf57bbcb7d7e1aabb71e5fbce176a79df00c5358"
     },
     {
-      "path": "src/pages/Classroom.jsx",
-      "sha256": "1ebe7058a412762db8c1f387b6f94db8f6c2f49f5f0e1335475bdf361651f1b6"
+      "path": "src/pages/HomePage/index.jsx",
+      "sha256": "da7f7f0fa187b23f3839202d5019cedc5d3729d36a9dbd642ffef14c449a9f88"
+    },
+    {
+      "path": "src/pages/HomePage/sections/CoursesSection.jsx",
+      "sha256": "2d3a9b1e9e331c1f733ac6798062bf6a4acdc8bbda78b5b84453148d9f11bb52"
+    },
+    {
+      "path": "src/pages/HomePage/sections/CtaSection.jsx",
+      "sha256": "4277cb00780b7eddfed2d8c7b1e1cd9c3c2be5f8ba0f6e06cc0187b348032788"
+    },
+    {
+      "path": "src/pages/HomePage/sections/FeaturesSection.jsx",
+      "sha256": "1fb1f93c9a6d41001efd5197ab3973849a7a9dacf17484e5f4192697ed6964d6"
+    },
+    {
+      "path": "src/pages/HomePage/sections/FooterSection.jsx",
+      "sha256": "a5c96d94c780219887ce63fa8b5c93f25dd9e18e276d32d453327432cf7d4b6c"
+    },
+    {
+      "path": "src/pages/HomePage/sections/HeroSection.jsx",
+      "sha256": "5e3441e78b056d5f50fdf4712c986b2a9f3fe6aba67c17b9d9437e793393b36f"
+    },
+    {
+      "path": "src/pages/HomePage/sections/StatsSection.jsx",
+      "sha256": "236a375a371b4682763b6cece571e4e7aeddb3c21c27d8f5f11c0600232911a9"
+    },
+    {
+      "path": "src/pages/HomePage/sections/TestimonialsSection.jsx",
+      "sha256": "9de4a46ff4c31bfc5bca8a55d7cbf01f5504dd71c0b4152fb892bd5b47ae820c"
     },
     {
       "path": "src/pages/Library.jsx",
@@ -51,62 +338,282 @@
       "sha256": "37a5e03c2a2248aad04a7a82f3a0198d564cb77f5be6642865b971a4ed3d7fb5"
     },
     {
+      "path": "src/pages/Quran/Quran.jsx",
+      "sha256": "f3df1bb096789c18fc73268c399b8d22d9c10335d8201dc109e830ccbe167750"
+    },
+    {
+      "path": "src/pages/admin/Classes.jsx",
+      "sha256": "88983a74ef9bcff96b54a4b0c6df744101d588208c2cdebb5f7af4ffaec9472c"
+    },
+    {
+      "path": "src/pages/admin/Courses.jsx",
+      "sha256": "0e5050d7f51ed62f3de806b8c849cff386cd02198dae61228cf70f1e65d31758"
+    },
+    {
+      "path": "src/pages/admin/Dashboard.jsx",
+      "sha256": "f38f7ca8777b5122c60e89b5c566305e92a44224e6c9e67264cb48a7a9f83751"
+    },
+    {
+      "path": "src/pages/admin/Enrollments.jsx",
+      "sha256": "fbe6b805ff2d27210ec01f4a31fa734020a6a1764447ee73482b8c6876e9f7a5"
+    },
+    {
+      "path": "src/pages/admin/Payments.jsx",
+      "sha256": "6d5fc2932dc56ea0992e551f813a385d770874919c396d8c50ad43ffee4209a6"
+    },
+    {
+      "path": "src/pages/admin/Profile.jsx",
+      "sha256": "9e36b0ab63a2ee13502c9e1bd17b964955c863a778566a9729bbc9f783c0f6d8"
+    },
+    {
+      "path": "src/pages/admin/Reports.jsx",
+      "sha256": "559e93623c39a376f0bb1a87524c3f294d6ffcb4089d8c1856f8b1f42aa9067e"
+    },
+    {
+      "path": "src/pages/admin/Settings.jsx",
+      "sha256": "cde398eb8b9f3880fb606daace6497d95876d71cae0ff61a048bbcd5efba6536"
+    },
+    {
+      "path": "src/pages/admin/Ulma.jsx",
+      "sha256": "03c70c90e10cb75fc8a29fa158c4428b2cb2a6e27b8742df291fbfb65acb42be"
+    },
+    {
+      "path": "src/pages/admin/Users.jsx",
+      "sha256": "65d8a705182282e73e63be73a8f1c9face113b1ba38b1129a81391bf0fa4ab28"
+    },
+    {
+      "path": "src/pages/auth/Login.jsx",
+      "sha256": "df749a86fcbca07808b2962d575930e78e5eceffd81611b5d4e5392000dab6c1"
+    },
+    {
+      "path": "src/pages/auth/Register.jsx",
+      "sha256": "da7e0a00ec0577353be692de0671b377fc721ab79f98ddc21faf9e472feaae11"
+    },
+    {
+      "path": "src/pages/student/ChatPage.jsx",
+      "sha256": "cf204dc2110470cdcadbc2b62e17d5a5d6f60557d944f9339c4f852fea97c583"
+    },
+    {
+      "path": "src/pages/student/Courses.jsx",
+      "sha256": "2d2e58a3a8df38973f681d8fff80f906eb1f1e820e6e9644ef7dbffce70dacbb"
+    },
+    {
+      "path": "src/pages/student/CurrentEnrollments.jsx",
+      "sha256": "7f6b7e1c569470e7bb3bf0a643f39b092ea29ad2bf24bf4511bd309f1b336987"
+    },
+    {
+      "path": "src/pages/student/Fees.jsx",
+      "sha256": "378bcd46e6e9206ecdf2974cd2e77e8cecfb31619708fd719eba65ed3282ae0d"
+    },
+    {
+      "path": "src/pages/student/LiveClass.jsx",
+      "sha256": "b74bbcc1b021576c721644ccb7931edcab49bc459bbcabfd3d0fe46d528fd50d"
+    },
+    {
+      "path": "src/pages/student/MonthlyReport.jsx",
+      "sha256": "033bf5bc17b9ab7381eb7e1cb598efbb545cfa83d8854f6ef54c3a44553fad11"
+    },
+    {
+      "path": "src/pages/student/Progress.jsx",
+      "sha256": "c630a00c5f7e7a9c9c60b66793d3eec218fd2199db6e7af4f7870e17aa925164"
+    },
+    {
+      "path": "src/pages/student/Setting.jsx",
+      "sha256": "f48e8462e8588b826fdc60e8a4ac01991078eea106d9fc86866a4e24d1b54c6e"
+    },
+    {
+      "path": "src/pages/student/Timetable.jsx",
+      "sha256": "c9dd0cc8b15cc731a07b71ad2ca4ec8e44e876a094717837af543347d6915dfb"
+    },
+    {
+      "path": "src/pages/student/component/dashboard/PendingAssignments.jsx",
+      "sha256": "df48e38bda14719fa8d6d21b2858422926ef5dd40199eb8d0a389cbbb8d0d406"
+    },
+    {
+      "path": "src/pages/student/component/dashboard/ProgressSection.jsx",
+      "sha256": "839be5774ab6c9309e1e0f1f9be48607321245d8321181e8a1d0b6438efb7c01"
+    },
+    {
+      "path": "src/pages/student/component/dashboard/QuickActions.jsx",
+      "sha256": "d4a5fefe22e05252aae9cda9ee820e8417b6a3fe16512f4c4613ab04a3c36de9"
+    },
+    {
+      "path": "src/pages/student/component/dashboard/RecentActivity.jsx",
+      "sha256": "ac5f8a4c6779b6230db3edb53a47a745964ba0085785286d9219f2e7ff390022"
+    },
+    {
+      "path": "src/pages/student/component/dashboard/StatCards.jsx",
+      "sha256": "98e55e2bdd815b67c8efcf2f2a7e30353dd554c7265f38c9890dc79f58bd4402"
+    },
+    {
+      "path": "src/pages/student/component/dashboard/TeacherSection.jsx",
+      "sha256": "27c78f7be27eb142420c89f3654b385fce768008d651713fb380b62d12848a3e"
+    },
+    {
+      "path": "src/pages/student/component/dashboard/UpcomingClasses.jsx",
+      "sha256": "d8ea4568ad6dcaee660080d0e68f3bfdac9e86bd57f841435d24e2303baebef2"
+    },
+    {
+      "path": "src/pages/student/component/dashboard/WelcomeHeader.jsx",
+      "sha256": "94d5faba19a82be43d0defa35002379e3347e6682a0c1ed1473a0cbf1b9abbf1"
+    },
+    {
+      "path": "src/pages/student/component/dashboard/index.jsx",
+      "sha256": "4325ba0609d82daf057ee52ae5003cade38ca4e78ad44d45627faf8522858bc5"
+    },
+    {
+      "path": "src/pages/ulma/Attendance.jsx",
+      "sha256": "c8b7380a4e38daf2bd541df7aa64a4b344bc7f35ee25ffc0ac91400b34df5baa"
+    },
+    {
+      "path": "src/pages/ulma/Availability.jsx",
+      "sha256": "9ae0e7ca5b88bfc74e12088c613479fd5ca4f9c3c0a4050f5916764dbb50b895"
+    },
+    {
+      "path": "src/pages/ulma/Dashboard.jsx",
+      "sha256": "56c0e5f94ee8559f46b307d5a409300311bfc42af6c9f57cef2d7bb30985700c"
+    },
+    {
+      "path": "src/pages/ulma/LiveClass.jsx",
+      "sha256": "7f574feaba0f3f2e864c28285694866d44c8b4d3af79d944d1cd50ba0b19f139"
+    },
+    {
+      "path": "src/pages/ulma/Messages.jsx",
+      "sha256": "88ee86598d87baeaf9e9ca9118e51b7d29e900cac948db89e924746c30888c1d"
+    },
+    {
+      "path": "src/pages/ulma/Profile.jsx",
+      "sha256": "01c4c8fb4cb3882bb2397a6f49c918d14fe9349d8e3efab57c1eedbdeb2e04a4"
+    },
+    {
+      "path": "src/pages/ulma/Schedule.jsx",
+      "sha256": "e6b7a04a528b1ab49c1bd0e5b3c140487f23f2d558ce9714c109aa3a3a653cd2"
+    },
+    {
+      "path": "src/pages/ulma/Settings.jsx",
+      "sha256": "163606553ed61f5835dea203838465339d795ecc603d6b76da9d58f6ebaf6626"
+    },
+    {
+      "path": "src/pages/ulma/Students.jsx",
+      "sha256": "79f5daa89fe451a024093d58c79f2f3809700daf1fb068ebc6bf844cdf6958e3"
+    },
+    {
+      "path": "src/pages/ulma/Timetable.jsx",
+      "sha256": "314213abc4077aec6d9b040bf441cf45e5d3fa6bff2ae979c12757169d924777"
+    },
+    {
+      "path": "src/pages/ulma/components/common/StatCard.jsx",
+      "sha256": "01666cce231077becf0e64b6ffbfafba0050eb931ba9c2650160f955973f8d75"
+    },
+    {
+      "path": "src/pages/ulma/components/dashboard/Notifications.jsx",
+      "sha256": "34c9ce29d52f4ced1844b54360a519c52e9ef4d29eacc6dc6aa1715b42605b76"
+    },
+    {
+      "path": "src/pages/ulma/components/dashboard/QuickActions.jsx",
+      "sha256": "9db7acd7d3686c97554b5c313ef1df0c3374b36c116dc2a45f9624cd519e327c"
+    },
+    {
+      "path": "src/pages/ulma/components/dashboard/QuickStats.jsx",
+      "sha256": "7cf6e6efd0a9ec2d848f4c8a55dace764748ec5e907e7e764141f6e35bbea2eb"
+    },
+    {
+      "path": "src/pages/ulma/components/dashboard/StatsCards.jsx",
+      "sha256": "e02d1f97e474e3ca07e63fe422dec5d78b1acfa3019f631837364455d808c6fe"
+    },
+    {
+      "path": "src/pages/ulma/components/dashboard/StudentsTable.jsx",
+      "sha256": "c875e4a6651f18c8bb06585ce6d58ba07a756c4a62aaf58834995e4d3489f1c8"
+    },
+    {
+      "path": "src/pages/ulma/components/dashboard/TodaysSchedule.jsx",
+      "sha256": "6139c36a8168cbeffc431708387af9edcca79207fb482968e39b46d3f58d5514"
+    },
+    {
+      "path": "src/pages/ulma/components/dashboard/UpcomingClasses.jsx",
+      "sha256": "fe4337914032e01bda6382f2ea75937444baf3ddec30d042457f1dd07bf68c6f"
+    },
+    {
+      "path": "src/pages/ulma/components/dashboard/WeeklyChart.jsx",
+      "sha256": "e180e371eaf3067d2e8a0263333bf0d4eaa100544c7c44e2fb10add5bfee5eae"
+    },
+    {
+      "path": "src/pages/ulma/components/dashboard/WelcomeHeader.jsx",
+      "sha256": "f0fdc5556ef595bc2a230bfa01b202ff7a54b80007eac6dab5634c065a02af58"
+    },
+    {
+      "path": "src/providers/QueryProvider.jsx",
+      "sha256": "408f673ee94df91c52738df17b610c1ccad11649a47cd6b03a476b88bb06fd84"
+    },
+    {
+      "path": "src/services/admin.js",
+      "sha256": "008b23bbe982454d6af5fe22da8be6c41d34842af21ccc2f327f7b61cc7f27a4"
+    },
+    {
+      "path": "src/services/api.js",
+      "sha256": "e5bafe4453383374a5e186b0f5835c4494e0f12dd67ff04771e8f37638a92fcc"
+    },
+    {
+      "path": "src/services/auth.js",
+      "sha256": "6cb80b1fb1ae5f1c8660841b2003e17794d181ae32b1f28c4999ea54a35b01b7"
+    },
+    {
+      "path": "src/services/chat.js",
+      "sha256": "8f6584a91308320d77716c39fc60921d26caafbc75c695ff58a89ea49f6865e2"
+    },
+    {
+      "path": "src/services/index.js",
+      "sha256": "1065a0fcfc3a70747591fc62af8d8526f30dd249f477476b43a76678b4e868e4"
+    },
+    {
+      "path": "src/services/liveClasses.js",
+      "sha256": "3a649105eb60755bf27a137131dd6dcfd293edf8c4954ff0a37ac7dae9784cdb"
+    },
+    {
+      "path": "src/services/quiz.js",
+      "sha256": "3b0ae0029b2e66dd1b512987697db42c5b167e4328566c61d0d1ce471f1a8ac3"
+    },
+    {
+      "path": "src/services/quran.js",
+      "sha256": "7b79113b5a3b76b0d8b4cd7b28635e2d3d7118a220ef8cc341acc0a9e8369b1b"
+    },
+    {
+      "path": "src/services/quranService.js",
+      "sha256": "07db6f19862b897a97c9da89dc5efa2454571c03bb18d00e61b1bed4bb101c55"
+    },
+    {
+      "path": "src/services/teacher.js",
+      "sha256": "cd104f7679f932ea8b119344c925a14376280417634169e8674a1a447f9cad2c"
+    },
+    {
+      "path": "src/services/user.js",
+      "sha256": "95af0e41e5ed2134dc2cbb2dfdae53535dafbe2020e8f2e874c2d83a27a9c93f"
+    },
+    {
+      "path": "src/socket/socket.js",
+      "sha256": "b50d58eb22d89ff5ac6bdcfdca6cb363bc2b53deecc315e682a5204c570565e3"
+    },
+    {
       "path": "src/styles.css",
       "sha256": "0e7264359d20b5f41902a8fd50311c4dec3cc529c04f622555ee2265860fb172"
     },
     {
-      "path": "vercel.json",
-      "sha256": "9e6d7804982dfc1e088d1c6126037f64fc528980fdf7c5c5928fd079ade2af89"
-    }
-  ],
-  "modified": [
-    {
-      "path": ".gitignore",
-      "sha256": "8fcc60e708710fb00c79f60b2deb7dcce763f59da9ebd2cd9383a1018d1b61d4",
-      "previousSha256": "0806727c8443db8f0e2bc6284acc09b0e60ca6f62e25bfb55602dbcc92d24744"
+      "path": "src/utils/quranUtils.js",
+      "sha256": "3b7e91dddc7b4d03032c50331e3f9b6e2d5e269c4f66983d1aca8b099d25640c"
     },
     {
-      "path": "README.md",
-      "sha256": "187e702ec7b2f05c07d39e4f559600f8b2e67c045ec72a6232affb1706936ebd",
-      "previousSha256": "7a6f004c103a2e323a5677758071ad4dfe22ea8a92883aadd5f5b39b46dd729d"
+      "path": "src/utils/timezoneUtils.js",
+      "sha256": "866ce770aff735d15529688b5a5761fca9da4d6788a7d8e73e76abb018950489"
     },
     {
-      "path": "index.html",
-      "sha256": "1f365b4d6337e55ff7b0b14b267a3370607cec47acc5f186d5db9c7d2bbe768d",
-      "previousSha256": "301a6bcdeac7697682ce038bdcdbf47c84f20886cd0eeb34f59443d471a9ffd0"
-    },
-    {
-      "path": "package.json",
-      "sha256": "0008438923a7d280f97d42aa5d4513e116c7c6ec962a1f28e670d139b010014e",
-      "previousSha256": "4b1a60a91f18df808a560e479014eba601e34538fe353b906f000281eac32429"
-    },
-    {
-      "path": "postcss.config.js",
-      "sha256": "ace8ce3bf9fb1df76578bd57a304856ea28d4ff42e1375e1f9636af570962f5c",
-      "previousSha256": "190c877db466995bf1482f4a16abd06e04a89ede3119341e2a86ff96e1737b27"
-    },
-    {
-      "path": "src/App.jsx",
-      "sha256": "1b3737489ab60b5d0915fc05ce2191198098f6fe096195ca34495ff9501d847d",
-      "previousSha256": "55247ba71285534900b2c9650eed6f2d24403f6a77b48079d2556d9e7c3faaba"
-    },
-    {
-      "path": "src/main.jsx",
-      "sha256": "bff7940aa0d526751cacd8f05d24891ee890a2f74f653fb3128ead4638a256d9",
-      "previousSha256": "e731978876db7877c2ed52e8c93c37310d21316e54be45104c339caf2a642227"
-    },
-    {
-      "path": "src/pages/Home.jsx",
-      "sha256": "8f310e975fe670e94e906d7fd4d3e49d3451c5f55dc2c945067cf1fd82b6e50f",
-      "previousSha256": "6a3244d1a56f7cd98b269e39c7b07340027a0237c7c6d8542ef93d51c66c614a"
+      "path": "tailwind.config.js",
+      "sha256": "feb783411e777e41877ff30a6fe65d8bbe771ee54c579f052d9449daeb82dac3"
     },
     {
       "path": "vite.config.js",
-      "sha256": "a7a736de57fe2cc843867d63b52961509ed67803cd2cb39e6c11a440a43d203f",
-      "previousSha256": "f7e542a74fafcacf0f988d6399344e6b3ac5e460f1db34d73e5f67c031155e44"
+      "sha256": "a7a736de57fe2cc843867d63b52961509ed67803cd2cb39e6c11a440a43d203f"
     }
   ],
-  "unchangedNotIncluded": [],
   "obsolete": [
     {
       "path": "eslint.config.js",
@@ -537,10 +1044,5 @@
       "sha256": "feb783411e777e41877ff30a6fe65d8bbe771ee54c579f052d9449daeb82dac3"
     }
   ],
-  "counts": {
-    "new": 13,
-    "modified": 9,
-    "unchangedNotIncluded": 0,
-    "obsolete": 107
-  }
+  "obsoleteNote": "Historical optional cleanup candidates; cleanup deletes only exact matching legacy hashes. No obsolete files were deleted by this classroom release."
 }

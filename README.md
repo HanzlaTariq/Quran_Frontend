@@ -1,14 +1,11 @@
-# Noor Academy — frontend patch
+# Noor Academy — frontend — Embedded Classroom v2.2.0
 
-Start with [UPDATE_GUIDE.md](UPDATE_GUIDE.md).
+Read **[START_HERE_CLASSROOM.md](START_HERE_CLASSROOM.md)** first. It contains local setup, private Daily API configuration, database migration, deployment and an acceptance-test checklist. This is a complete updated copy of the uploaded source tree, not a built deployment.
 
-Merge these changed/new files into the root of your existing frontend repository. They accompany the matching backend patch. The API and Socket.IO requests use the same-origin rewrites in `vercel.json`; replace both backend-origin placeholders before deploying.
+Teacher/student own scheduling, private embedded live lessons, assignments and attendance. Admin remains an operational role. Quran/Hadith/notes sit beside Daily Prebuilt; student Join unlocks only after the assigned teacher starts.
 
-```sh
-npm install
-npm run dev
-# or:
-npm run build
-```
+**Verification:** 138 backend unit tests passed; 158 JS/JSX files parsed without syntax errors; 14 offline DOM interaction checks passed with API/media/history/socket test doubles. No real Daily call, MongoDB integration, dependency install or production build was executed here. See [test report](docs/CLASSROOM_TEST_REPORT.md).
 
-No secrets, dependency folders, build artifacts or private data are included. `PATCH_MANIFEST.json` records file changes relative to your uploaded original ZIP. Optional `npm run update:check` previews cleanup; `npm run update:clean` removes only untouched, obsolete baseline files.
+Use the matching updated frontend and backend together. Existing `.env`, database records and encryption keys must be backed up/preserved. Apply the documented migration with API instances stopped before upgrading an existing database.
+
+`PATCH_MANIFEST.json` compares this release with the uploaded ZIP. Legacy guides retained elsewhere are historical when they conflict with the current classroom guide. Never run old API routes alongside the new server entry point.

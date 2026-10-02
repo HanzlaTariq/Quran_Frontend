@@ -1,4 +1,4 @@
-import React,{useState,useEffect,useMemo} from 'react';
+import React,{useState,useEffect,useMemo,useCallback} from 'react';
 import {api,currency,idOf} from '../lib/api.js';
 import {allPages,viewerZone,localDate,shiftDate,dayTitle,atZone,timeOnly,rangeAt,titleCase} from '../lib/time.js';
 import {countries} from '../lib/countries.js';
@@ -14,7 +14,8 @@ export function useResource(path,{poll=0}={}){
   load(true);const timer=poll?setInterval(()=>load(false),poll):null;
   return()=>{live=false;controller.abort();if(timer)clearInterval(timer);};
  },[path,poll,revision]);
- return {data,error,loading,reload:()=>setRevision(v=>v+1)};
+ const reload=useCallback(()=>setRevision(v=>v+1),[]);
+ return {data,error,loading,reload};
 }
 function useDebounced(value){const [v,setV]=useState(value);useEffect(()=>{const t=setTimeout(()=>setV(value),300);return()=>clearTimeout(t);},[value]);return v;}
 export function Teachers({app}){
@@ -84,41 +85,80 @@ export function Enrollments({app}){
   {legacy?<Alert kind="info">This older enrollment has no saved weekly slots. Existing records remain unchanged. A pending request must have slots selected before automatic approval.</Alert>:<div className="enrolled-slots">{(e.schedule.firstOccurrences||[]).map((o,i)=><div key={i}><strong>Weekly {titleCase(o.day)} · {o.startTime} ({e.schedule.timeZone})</strong><DualTime start={o.utcStart} end={o.utcEnd} yourZone={zone} teacherZone={e.schedule.timeZone} studentZone={s?.timezone}/></div>)}{!e.schedule.firstOccurrences?.length&&e.schedule.slots.map((o,i)=><p key={i}>{titleCase(o.day)} {o.startTime} · {e.schedule.timeZone}</p>)}<small>The dates above are the initial occurrences. Open the timetable for each actual date, including daylight-saving changes.</small></div>}
   {e.status==='pending'&&e.holdExpiresAt&&<p className="hold-note"><Icon name="clock" size={15}/> Hold expires {atZone(e.holdExpiresAt,zone)}</p>}{e.generatedAt&&<p className="generated-note"><Icon name="check" size={16}/>{e.classesCount} lessons · {e.invoiceCount} monthly invoices generated</p>}{e.notes&&<p className="enrollment-notes">{e.notes}</p>}{e.schedule?.skipped?.length>0&&<details><summary>{e.schedule.skipped.length} DST exception(s)</summary>{e.schedule.skipped.map((d,i)=><p key={i}>{d.date} {d.time} · {d.reason}</p>)}</details>}
   <div className="record-actions">{active&&<Link app={app} to="/classes" className="btn outline">Open timetable</Link>}{active&&role==='student'&&<Link app={app} to="/fees" className="btn outline">Fee invoices</Link>}
-  {role==='admin'&&e.status==='pending'&&<><Button disabled={busy||legacy} icon="check" onClick={()=>ask(e,'approved')}>Approve & generate timetable</Button><Button variant="outline" disabled={busy} onClick={()=>ask(e,'rejected')}>Reject</Button></>}
+  {role==='admin'&&e.status==='pending'&&<><Button disabled={busy||legacy} icon="check" onClick={()=>ask(e,'approved')}>Approve enrollment</Button><Button variant="outline" disabled={busy} onClick={()=>ask(e,'rejected')}>Reject</Button></>}
   {role==='admin'&&['approved','active'].includes(e.status)&&<Button variant="outline" disabled={busy} onClick={()=>ask(e,'paused')}>Pause</Button>}{role==='admin'&&e.status==='paused'&&<Button disabled={busy} onClick={()=>ask(e,'active')}>Resume</Button>}
   {role==='admin'&&['approved','active','paused'].includes(e.status)&&<Button variant="outline" disabled={busy} onClick={()=>ask(e,'completed')}>Complete enrollment</Button>}{role==='student'&&requestAgain&&<Link app={app} className="btn outline" to={`/enroll?course=${idOf(e.course)}&teacher=${idOf(e.ulma)}&replaceEnrollment=${e._id}`}>{legacy?'Choose slots':'Choose slots / request again'}</Link>}
   {['admin','student'].includes(role)&&['pending','approved','active','paused','expired'].includes(e.status)&&<Button variant="outline" disabled={busy} onClick={()=>ask(e,'cancelled')}>Cancel enrollment</Button>}</div></article>;
  })}</div><Pagination {...data} onChange={setPage}/></>}
- {confirm&&<Modal title={confirm.next==='approved'?'Approve this learning plan?':`${titleCase(confirm.next)} enrollment?`} busy={busy} onClose={()=>setConfirm(null)}>{error&&<Alert>{error}</Alert>}<p>{confirm.next==='approved'?`This will reserve the selected weekly slots, generate the full course timetable for student and teacher, and create ${confirm.e.courseDuration||confirm.e.course?.duration} monthly invoices at ${currency(confirm.e.monthlyFee,confirm.e.currency||'PKR')}. No payment is charged.`:confirm.next==='paused'?'Future lessons pause, but the student keeps their reserved slots. Invoices are not automatically refunded or prorated.':confirm.next==='cancelled'?'Future lessons will be cancelled and their slots released. Future unsubmitted automatic invoices are cancelled; paid invoices and historical records stay unchanged.':'The enrollment status will be updated and both participants notified.'}</p><div className="modal-actions"><Button variant="outline" disabled={busy} onClick={()=>setConfirm(null)}>Go back</Button><Button disabled={busy} onClick={()=>act(confirm.e,confirm.next)}>{busy?'Saving atomically…':'Confirm'}</Button></div></Modal>}
+ {confirm&&<Modal title={confirm.next==='approved'?'Approve this learning plan?':`${titleCase(confirm.next)} enrollment?`} busy={busy} onClose={()=>setConfirm(null)}>{error&&<Alert>{error}</Alert>}<p>{confirm.next==='approved'?`This will reserve the selected weekly slots, generate the full course timetable for student and teacher, and create ${confirm.e.courseDuration||confirm.e.course?.duration} monthly invoices at ${currency(confirm.e.monthlyFee,confirm.e.currency||'PKR')}. No payment is charged.`:confirm.next==='paused'?'Live and future lessons pause, but the student keeps their reserved slots. Invoices are not automatically refunded or prorated.':confirm.next==='cancelled'?'Future lessons will be cancelled and their slots released. Future unsubmitted automatic invoices are cancelled; paid invoices and historical records stay unchanged.':'The enrollment status will be updated and both participants notified.'}</p><div className="modal-actions"><Button variant="outline" disabled={busy} onClick={()=>setConfirm(null)}>Go back</Button><Button disabled={busy} onClick={()=>act(confirm.e,confirm.next)}>{busy?'Saving atomically…':'Confirm'}</Button></div></Modal>}
  </>;
 }
 
 export function Timetable({app}){
- const user=app.state.user,zone=viewerZone(user),teacher=user.role==='ulma',admin=user.role==='admin';
- const [bucket,setBucket]=useState('upcoming'),[page,setPage]=useState(1),[from,setFrom]=useState(''),[to,setTo]=useState(''),[busy,setBusy]=useState(''),[error,setError]=useState(''),[modal,setModal]=useState(null),[confirm,setConfirm]=useState(null);
- const {data,error:loadError,loading,reload}=useResource(`/classes?${new URLSearchParams({bucket,page,limit:12,from,to})}`,{poll:15000});
- async function join(c,start=false){setBusy(c._id);setError('');try{if(start)await api(`/classes/${c._id}`,{method:'PATCH',body:{status:'ongoing'}});if(admin){app.toast('Class started.');reload();return;}const d=await api(`/classes/${c._id}/join`,{method:'POST',body:{}});if(d.kind==='external')window.location.assign(d.url);else app.navigate(d.url);}catch(e){setError(e.message);reload();}finally{setBusy('');}}
- async function openCreate(){setBusy('create');setError('');try{const enrollments=(await allPages(api,'/enrollments')).filter(e=>['approved','active'].includes(e.status));if(!enrollments.length)throw new Error('You need an approved enrollment before scheduling a class.');setModal({kind:'create',enrollments});}catch(e){setError(e.message);}finally{setBusy('');}}
- async function save(body){if(modal.kind==='create')await api('/classes',{method:'POST',body});else await api(`/classes/${modal.lesson._id}`,{method:'PATCH',body});setModal(null);app.toast('Lesson saved. It is visible to both teacher and student.');reload();}
- async function changeStatus(c,status){setBusy(c._id);setError('');try{await api(`/classes/${c._id}`,{method:'PATCH',body:{status}});setConfirm(null);reload();app.toast('Lesson updated.');}catch(e){setError(e.message);}finally{setBusy('');}}
- const newFields=modal?.kind==='create'?[
-  {name:'enrollment',label:'Approved enrollment',type:'select',required:true,full:true,options:modal.enrollments.map(e=>({value:e._id,label:`${e.course?.name} · ${e.student?.user?.name} / ${e.ulma?.user?.name}`}))},
-  {name:'topic',label:'Lesson topic',required:true,minLength:2,maxLength:160,full:true},
+ const user=app.state.user,zone=viewerZone(user),teacher=user.role==='ulma';
+ const [bucket,setBucket]=useState('upcoming'),[page,setPage]=useState(1),[from,setFrom]=useState(''),[to,setTo]=useState('');
+ const [busy,setBusy]=useState(''),[error,setError]=useState(''),[modal,setModal]=useState(null),[confirm,setConfirm]=useState(null);
+ const {data,error:loadError,loading,reload}=useResource(`/classes?${new URLSearchParams({bucket,page,limit:12,from,to})}`,{poll:5000});
+ useEffect(()=>{
+  let socket;const changed=()=>reload();
+  const unsub=app.subscribeSocket?.(next=>{socket?.off('classes:changed',changed);socket=next;socket?.on('classes:changed',changed);});
+  window.addEventListener('focus',changed);
+  return()=>{socket?.off('classes:changed',changed);unsub?.();window.removeEventListener('focus',changed);};
+ },[app,reload]);
+ async function start(c){
+  setBusy(c._id);setError('');
+  try{await api(`/classes/${c._id}/start`,{method:'POST',body:{}});app.navigate(`/class/${c._id}?join=1`);}
+  catch(e){setError(e.message);reload();}finally{setBusy('');}
+ }
+ async function openCreate(){
+  setBusy('create');setError('');
+  try{const enrollments=(await allPages(api,'/enrollments')).filter(e=>['approved','active'].includes(e.status));if(!enrollments.length)throw new Error('You need an approved enrollment before scheduling a class.');setModal({kind:'create',enrollments});}
+  catch(e){setError(e.message);}finally{setBusy('');}
+ }
+ async function save(body){
+  const result=modal.kind==='create'?await api('/classes',{method:'POST',body}):await api(`/classes/${modal.lesson._id}`,{method:'PATCH',body});
+  const created=modal.kind==='create';setModal(null);app.toast(created?'Class scheduled. Both participants can now open its details.':'Lesson details saved.');reload();
+  if(created)app.navigate(`/class/${result._id}`);
+ }
+ async function changeStatus(c,status){
+  setBusy(c._id);setError('');
+  try{const result=await api(`/classes/${c._id}`,{method:'PATCH',body:{status}});setConfirm(null);reload();if(result.warning)setError(result.warning);else app.toast('Lesson updated.');}
+  catch(e){setError(e.message);}finally{setBusy('');}
+ }
+ const nameField={name:'topic',label:'Class name',required:true,minLength:2,maxLength:160,full:true};
+ const notesField={name:'notes',label:'Lesson description','type':'textarea',full:true,maxLength:2000};
+ const fields=modal?.kind==='create'?[
+  {name:'enrollment',label:'Approved enrollment',type:'select',required:true,full:true,options:modal.enrollments.map(e=>({value:e._id,label:`${e.course?.name} · ${e.student?.user?.name}`}))},nameField,
   {name:'localDate',label:`Date in ${zone}`,type:'date',required:true,defaultValue:localDate(Date.now(),zone)},
-  {name:'startTime',label:`Start time in ${zone}`,type:'time',required:true},
-  {name:'meetingLink',label:'External meeting link (optional)',type:'url',full:true,hint:'HTTPS only. Leave blank for the built-in teacher–student classroom.'}
- ]:[{name:'topic',label:'Lesson topic',required:true,minLength:2,maxLength:160,full:true},{name:'meetingLink',label:'External HTTPS meeting link (optional)',type:'url',full:true},{name:'notes',label:'Lesson notes',type:'textarea',full:true,maxLength:2000}];
- return <><PageHeader eyebrow="TIME TO LEARN, TOGETHER" title="Your classes & timetable." description={`Every date is shown in ${zone}, with your learning partner’s corresponding time. The list refreshes every 15 seconds.`}>{(teacher||admin)&&<Button icon="plus" disabled={!!busy} onClick={openCreate}>Create a class</Button>}<Button variant="outline" icon="refresh" onClick={reload}>Refresh</Button></PageHeader><ZoneClocks yourZone={zone}/>
- <div className="class-filters panel"><div className="class-tabs" role="tablist" aria-label="Class status">{[['upcoming','Upcoming'],['live','Live now'],['history','Past lessons'],['cancelled','Cancelled'],['all','All classes']].map(([v,l])=><button type="button" role="tab" aria-selected={bucket===v} className={bucket===v?'active':''} key={v} onClick={()=>{setBucket(v);setPage(1);}}>{l}</button>)}</div><div className="date-filters"><label className="field"><span>From · your local date</span><input type="date" value={from} onChange={e=>{setFrom(e.target.value);setPage(1);}}/></label><label className="field"><span>Through · your local date</span><input type="date" value={to} min={from} onChange={e=>{setTo(e.target.value);setPage(1);}}/></label>{(from||to)&&<Button variant="outline" onClick={()=>{setFrom('');setTo('');setPage(1);}}>Clear dates</Button>}</div></div>
- {error&&!confirm&&<Alert>{error}</Alert>}{loading?<Loading/>:loadError?<Alert retry={reload}>{loadError}</Alert>:!data?.items.length?<Empty icon="calendar" title="No lessons in this view" text="Approved slot-based enrollments automatically create lessons. You can also try another date range or open All classes."/>:<><div className="lesson-grid">{data.items.map(c=><article className="panel lesson-card" key={c._id}><div className="record-heading"><div><div className="eyebrow">{c.course?.name||'Lesson'}</div><h2>{c.topic}</h2></div><Badge status={c.status}/></div><div className="lesson-people"><Avatar user={c.ulma?.user}/><div><strong>{c.ulma?.user?.name||'Teacher'}</strong><small>Teacher</small></div><div><strong>{c.student?.user?.name||'Student'}</strong><small>Student</small></div></div><DualTime start={c.utcStart} end={c.utcEnd} yourZone={zone} teacherZone={c.teacherTimeZone||c.ulma?.user?.timezone} studentZone={c.student?.user?.timezone}/><div className="lesson-kind"><span>{c.slotMinutes||Math.round((new Date(c.utcEnd)-new Date(c.utcStart))/60000)} minutes</span><span>{c.meetingLink?'External meeting':'Built-in classroom'}</span>{c.autoGenerated&&<span>Auto-scheduled</span>}</div>{c.notes&&<p className="lesson-notes">{c.notes}</p>}<div className="record-actions">
- {(teacher||admin)&&c.canStart&&<Button icon="play" disabled={!!busy} onClick={()=>join(c,true)}>{busy===c._id?'Starting…':admin?'Start class':'Start & join class'}</Button>}{!admin&&c.canJoin&&<Button icon="video" disabled={!!busy} onClick={()=>join(c)}>{busy===c._id?'Joining…':'Join class'}</Button>}
- {c.status==='scheduled'&&!c.canStart&&<span className="join-hint"><Icon name="clock" size={16}/>{teacher||admin?`Start opens ${atZone(c.joinOpensAt,zone)}`:'Your teacher will start the class at its scheduled time.'}</span>}
- {c.status==='paused'&&<span className="join-hint">Enrollment paused · slot remains reserved</span>}
- {(teacher||admin)&&['scheduled','ongoing','paused'].includes(c.status)&&<Button variant="outline" disabled={!!busy} onClick={()=>setModal({kind:'edit',lesson:c})}>Edit lesson</Button>}
- {(teacher||admin)&&c.status==='ongoing'&&<Button variant="outline" disabled={!!busy} onClick={()=>setConfirm({c,status:'completed'})}>End class</Button>}
- {(teacher||admin)&&['scheduled','paused','ongoing'].includes(c.status)&&<Button variant="outline" disabled={!!busy} onClick={()=>setConfirm({c,status:'cancelled'})}>Cancel</Button>}
- </div></article>)}</div><Pagination {...data} onChange={setPage}/></>}
- {modal&&<Modal title={modal.kind==='create'?'Create a lesson':'Edit lesson details'} onClose={()=>setModal(null)}><p className="form-note">{modal.kind==='create'?`New lessons are ${data?.booking?.slotMinutes||30} minutes (administrator setting). Enter the date/time in ${zone}, not your device’s other time zone. Overlapping teacher or student bookings are rejected.`:'This changes the title, notes or meeting link, not the booked time. To move one lesson, cancel it and create a replacement; check fees separately.'}</p><DataForm fields={newFields} values={modal.lesson||{}} onSubmit={save} label={modal.kind==='create'?'Create class':'Save lesson'}/></Modal>}
- {confirm&&<Modal title={confirm.status==='completed'?'End this class?':'Cancel this class?'} busy={!!busy} onClose={()=>setConfirm(null)}>{error&&<Alert>{error}</Alert>}<p>{confirm.status==='completed'?'The classroom closes for both participants. Attendance can still be recorded.':'This lesson is cancelled and its time is released. The rest of the weekly timetable is unchanged. This does not issue a refund.'}</p><div className="modal-actions"><Button variant="outline" disabled={!!busy} onClick={()=>setConfirm(null)}>Go back</Button><Button disabled={!!busy} onClick={()=>changeStatus(confirm.c,confirm.status)}>Confirm</Button></div></Modal>}
+  {name:'startTime',label:`Start time in ${zone}`,type:'time',required:true},notesField
+ ]:[nameField,notesField];
+ return <><PageHeader eyebrow="TIME TO LEARN, TOGETHER" title="Your classes & timetable." description={`Times are shown in ${zone}. Every class has its own page. Student joining unlocks only after the teacher starts; this list refreshes every 5 seconds.`}>
+  {teacher&&<Button icon="plus" disabled={!!busy} onClick={openCreate}>Schedule a class</Button>}<Button variant="outline" icon="refresh" onClick={reload}>Refresh</Button>
+ </PageHeader><ZoneClocks yourZone={zone}/>
+ <div className="class-filters panel"><div className="class-tabs" role="tablist" aria-label="Class status">
+  {[['upcoming','Upcoming'],['live','Live now'],['history','Past lessons'],['cancelled','Cancelled'],['all','All classes']].map(([v,label])=><button type="button" role="tab" aria-selected={bucket===v} className={bucket===v?'active':''} key={v} onClick={()=>{setBucket(v);setPage(1);}}>{label}</button>)}
+ </div><div className="date-filters"><label className="field"><span>From · local date</span><input type="date" value={from} onChange={e=>{setFrom(e.target.value);setPage(1);}}/></label><label className="field"><span>Through · local date</span><input type="date" value={to} min={from} onChange={e=>{setTo(e.target.value);setPage(1);}}/></label>{(from||to)&&<Button variant="outline" onClick={()=>{setFrom('');setTo('');setPage(1);}}>Clear dates</Button>}</div></div>
+ {error&&!confirm&&<Alert>{error}</Alert>}
+ {loading&&!data?<Loading/>:loadError?<Alert retry={reload}>{loadError}</Alert>:!data?.items.length?<Empty icon="calendar" title="No lessons in this view" text={teacher?'Schedule a class for an approved enrollment, or choose another date range.':'Your teacher’s scheduled classes will appear here. You can also open All classes.'}/>:<>
+ <div className="lesson-grid">{data.items.map(c=><article className="panel lesson-card" key={c._id}>
+  <div className="record-heading"><div><div className="eyebrow">{c.course?.name||'Lesson'}</div><h2><Link app={app} to={`/class/${c._id}`}>{c.topic}</Link></h2></div><Badge status={c.status}>{c.isExpired&&c.status==='ongoing'?'Time ended':c.status}</Badge></div>
+  <div className="lesson-people"><Avatar user={c.ulma?.user}/><div><strong>{c.ulma?.user?.name||'Teacher'}</strong><small>Teacher</small></div><div><strong>{c.student?.user?.name||'Student'}</strong><small>Student</small></div></div>
+  <DualTime start={c.utcStart} end={c.utcEnd} yourZone={zone} teacherZone={c.teacherTimeZone||c.ulma?.user?.timezone} studentZone={c.student?.user?.timezone}/>
+  <div className="lesson-kind"><span>{c.slotMinutes||Math.round((new Date(c.utcEnd)-new Date(c.utcStart))/60000)} minutes</span><span>Embedded private classroom</span>{c.autoGenerated&&<span>Recurring lesson</span>}</div>
+  {c.notes&&<p className="lesson-notes">{c.notes}</p>}<p className="room-id-caption">Room ID · {c.roomId}</p>
+  <div className="record-actions">
+   {teacher&&c.canStart&&<Button icon="play" disabled={!!busy} onClick={()=>start(c)}>{busy===c._id?'Preparing room…':'Start Class'}</Button>}
+   {c.canJoin&&<Link app={app} to={`/class/${c._id}?join=1`} className="btn">Join Class <Icon name="video" size={16}/></Link>}
+   <Link app={app} to={`/class/${c._id}`} className="btn outline">Class details</Link>
+   {c.status==='scheduled'&&!c.canStart&&<span className="join-hint"><Icon name="clock" size={16}/>{c.isExpired?'The scheduled time has passed.':teacher?`Start opens ${atZone(c.joinOpensAt,zone)}`:'Waiting for your teacher to start.'}</span>}
+   {c.status==='paused'&&<span className="join-hint">Enrollment paused · slot remains reserved</span>}
+   {teacher&&c.canEdit&&<Button variant="outline" disabled={!!busy} onClick={()=>setModal({kind:'edit',lesson:c})}>Edit details</Button>}
+   {teacher&&c.status==='ongoing'&&<Button variant="outline" disabled={!!busy} onClick={()=>setConfirm({c,status:'completed'})}>End Class</Button>}
+   {teacher&&['scheduled','paused','ongoing'].includes(c.status)&&<Button variant="outline" disabled={!!busy} onClick={()=>setConfirm({c,status:'cancelled'})}>Cancel lesson</Button>}
+   {teacher&&c.closePending&&<Link app={app} to={`/class/${c._id}`} className="text-link">Video cleanup needs attention</Link>}
+  </div>
+ </article>)}</div><Pagination {...data} onChange={setPage}/></>}
+ {modal&&<Modal title={modal.kind==='create'?'Schedule a class':'Edit class details'} onClose={()=>setModal(null)}><p className="form-note">{modal.kind==='create'?`Enter a class name, date and start time in ${zone}. Duration is ${data?.booking?.slotMinutes||30} minutes. The backend generates the room ID; do not create a Daily room or paste a meeting link. Overlapping teacher/student bookings are rejected.`:'Update the name and description. To move a lesson, cancel it and schedule a replacement. Billing is not automatically adjusted.'}</p><DataForm fields={fields} values={modal.lesson||{}} onSubmit={save} label={modal.kind==='create'?'Schedule class':'Save details'}/></Modal>}
+ {confirm&&<Modal title={confirm.status==='completed'?'End this class?':'Cancel this class?'} busy={!!busy} onClose={()=>setConfirm(null)}>{error&&<Alert>{error}</Alert>}<p>{confirm.status==='completed'?'New joins close immediately and Daily is asked to disconnect both participants. Attendance can still be recorded.':'This lesson will be cancelled and its slot released. Other weekly lessons stay unchanged. No refund is issued automatically.'}</p><div className="modal-actions"><Button variant="outline" disabled={!!busy} onClick={()=>setConfirm(null)}>Go back</Button><Button disabled={!!busy} onClick={()=>changeStatus(confirm.c,confirm.status)}>{busy?'Saving…':'Confirm'}</Button></div></Modal>}
  </>;
 }
