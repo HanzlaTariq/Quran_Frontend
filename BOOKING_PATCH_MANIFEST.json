@@ -1,0 +1,110 @@
+{
+  "project": "Noor Academy",
+  "version": "2.1.0",
+  "repository": "frontend",
+  "patch_basis": "Original uploaded repository with Noor_Only_Updated_Files.zip (2.0.1) and no-watch backend restart fix applied",
+  "apply_to": "Existing matching repository root; merge directories, replace matching files. Do not delete src/models or nest a wrapper folder.",
+  "preserve": [
+    ".env",
+    ".env.testing",
+    "vercel.json",
+    "downloaded data/",
+    "node_modules/",
+    "SESSION_SECRET",
+    "CHAT_KEY"
+  ],
+  "deleted_files": [],
+  "files": [
+    {
+      "path": "BOOKING_START_HERE.md",
+      "change": "new",
+      "sha256": "1de968588272cb9cf52f874834752444a57ec1a70362e8228dcfe952febd1c51",
+      "bytes": 1331
+    },
+    {
+      "path": "docs/BOOKING_UPDATE.md",
+      "change": "new",
+      "sha256": "5fd9f33da9870be24f9f47955f0c0e2195a39ceb00cfe72cad529955ece71597",
+      "bytes": 3591
+    },
+    {
+      "path": "package.json",
+      "change": "updated",
+      "sha256": "4d06f04dfc51de55d0469ea07a20566ec93d1ebd2db5d2f0cf74f62eb8dc238d",
+      "bytes": 570,
+      "previous_sha256": "0008438923a7d280f97d42aa5d4513e116c7c6ec962a1f28e670d139b010014e"
+    },
+    {
+      "path": "src/App.jsx",
+      "change": "updated",
+      "sha256": "cfa8967d8469cdf6a90461ea73a7f92a9662b16280f61eb1d56868fb032baabb",
+      "bytes": 15181,
+      "previous_sha256": "1b3737489ab60b5d0915fc05ce2191198098f6fe096195ca34495ff9501d847d"
+    },
+    {
+      "path": "src/booking.css",
+      "change": "new",
+      "sha256": "4370e71c75f4f4b0e1843dd224f2c1a5e258bd7ad02b6174fe71824f1f52e251",
+      "bytes": 21237
+    },
+    {
+      "path": "src/components/BookingUI.jsx",
+      "change": "new",
+      "sha256": "0696444b8d50cf538830581cfe31ee5fddaf31fb757e5f100ccb7d7f2e433973",
+      "bytes": 7885
+    },
+    {
+      "path": "src/lib/countries.js",
+      "change": "new",
+      "sha256": "5873e48fb78988b2f2060c3f8f8fea26e7491a526a174aca504ba8e65a9022d7",
+      "bytes": 944
+    },
+    {
+      "path": "src/lib/time.js",
+      "change": "new",
+      "sha256": "ee1f08ea59dd4b07bbb8e6bacec0781926e1b59d8547bfaf188a7952c63b59eb",
+      "bytes": 2313
+    },
+    {
+      "path": "src/pages/Academy.jsx",
+      "change": "updated",
+      "sha256": "146b82f53a90555cfff3828647a09f9cd72397bfb2e63a8a0200706b969a5a72",
+      "bytes": 26951,
+      "previous_sha256": "d462bbd226ed978e65fbb34e41c9be4d57e9b8e8bd59bc231bd0e6e9065f87c9"
+    },
+    {
+      "path": "src/pages/AccountSettings.jsx",
+      "change": "new",
+      "sha256": "9e38ec3ead16494c5b12acaa715094c66562155dacc82b813706a88c7c619784",
+      "bytes": 12703
+    },
+    {
+      "path": "src/pages/Auth.jsx",
+      "change": "updated",
+      "sha256": "37143a2e38708568bd01f346cf57bbcb7d7e1aabb71e5fbce176a79df00c5358",
+      "bytes": 8646,
+      "previous_sha256": "44ac14edd6d563dac35e99cfc78cd8cd3108d49a1d22627bab6991b162b560ac"
+    },
+    {
+      "path": "src/pages/Classroom.jsx",
+      "change": "updated",
+      "sha256": "bbdd58fa1f4ac55ce7b0e30639fb02ee991ccf4472605a53077404f4d0389552",
+      "bytes": 9615,
+      "previous_sha256": "1ebe7058a412762db8c1f387b6f94db8f6c2f49f5f0e1335475bdf361651f1b6"
+    },
+    {
+      "path": "src/pages/Home.jsx",
+      "change": "updated",
+      "sha256": "687630d590c0efba7f941cc07eb99c25805195418396eeded85eec85e7f02b88",
+      "bytes": 10395,
+      "previous_sha256": "8f310e975fe670e94e906d7fd4d3e49d3451c5f55dc2c945067cf1fd82b6e50f"
+    },
+    {
+      "path": "src/pages/Scheduling.jsx",
+      "change": "new",
+      "sha256": "1a11f3a6259a2ad7d8e3d06fb53cc09d85570e57dc66c07d1551f96ddf9985d3",
+      "bytes": 32603
+    }
+  ],
+  "note": "This manifest excludes itself; it is not a standalone full project. See BOOKING_START_HERE.md."
+}

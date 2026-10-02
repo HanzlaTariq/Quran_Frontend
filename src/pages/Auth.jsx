@@ -1,0 +1,43 @@
+import React,{useState,useEffect} from 'react';
+import {api} from '../lib/api.js';
+import {deviceZone,validZone} from '../lib/time.js';
+import {Logo,Icon,Link,Alert,Button} from '../components/UI.jsx';
+import {LocationFields} from '../components/BookingUI.jsx';
+export default function Auth({app,mode='login',returnTo}){
+ const register=mode==='register',forgot=mode==='forgot-password',reset=mode==='reset-password';
+ const [form,setForm]=useState({name:'',email:'',password:'',role:'student',country:'',city:'',timezone:deviceZone(),languages:'',gender:'unspecified',phone:'',age:'',bio:'',expertise:'',experience:0});
+ const [step,setStep]=useState(1),[busy,setBusy]=useState(false),[error,setError]=useState(''),[message,setMessage]=useState(''),[show,setShow]=useState(false),[otp,setOtp]=useState(null),[code,setCode]=useState(''),[now,setNow]=useState(Date.now()),[complete,setComplete]=useState(false);
+ const set=(key,v)=>setForm(f=>({...f,[key]:v}));
+ useEffect(()=>{const timer=setInterval(()=>setNow(Date.now()),1000);return()=>clearInterval(timer);},[]);
+ const seconds=otp?Math.max(0,Math.ceil((+new Date(otp.resendAt)-now)/1000)):0;
+ const remaining=otp?Math.max(0,Math.ceil((+new Date(otp.expiresAt)-now)/1000)):0;
+ function result(d){if(d.user){app.signedIn(d.user,returnTo);return;}if(d.requiresOtp){setOtp(d);setCode('');setNow(Date.now());setMessage(d.message);}else{setMessage(d.message||'Request completed.');if(d.verified){setOtp(null);setComplete(true);}}}
+ async function submit(e){
+  e.preventDefault();setError('');setMessage('');
+  if(register&&!otp&&step===1){setStep(2);return;}
+  setBusy(true);
+  try{
+   if(otp){result(await api('/auth/otp/verify',{method:'POST',body:{challenge:otp.challenge,code}}));}
+   else if(register){if(!validZone(form.timezone))throw new Error('Choose a valid city/region time zone.');result(await api('/auth/register',{method:'POST',body:{...form,languages:form.languages.split(',').map(s=>s.trim()).filter(Boolean),expertise:form.expertise.split(',').map(s=>s.trim()).filter(Boolean)}}));}
+   else if(forgot)result(await api('/auth/forgot-password',{method:'POST',body:{email:form.email}}));
+   else if(reset)result(await api('/auth/reset-password',{method:'POST',body:{password:form.password,token:new URLSearchParams(location.search).get('token')}}));
+   else result(await api('/auth/login',{method:'POST',body:{email:form.email,password:form.password}}));
+  }catch(e){setError(e.message);}finally{setBusy(false);}
+ }
+ async function resend(){setBusy(true);setError('');try{result(await api('/auth/otp/resend',{method:'POST',body:{challenge:otp.challenge}}));}catch(e){setError(e.message);}finally{setBusy(false);}}
+ const title=otp?'Check your email':complete?'Email verified':register?(step===1?'Begin your journey':'Make it your learning space'):forgot?'Forgot your password?':reset?'A fresh start':'Welcome back';
+ return <div className="auth-wrap"><div className="auth-story"><Logo/><div><div className="eyebrow">KNOWLEDGE. CONNECTION. GROWTH.</div><h1>A meaningful journey<br/><em>begins here.</em></h1><p>Find the right teacher. Choose a time that fits your life. Learn together, wherever you are.</p><div className="auth-features"><span><Icon name="book"/>Real learning</span><span><Icon name="clock"/>Your local time</span><span><Icon name="shield"/>Email verified</span></div></div><small>Your learning. Your pace. Your space.</small></div><div className="auth-card extended-auth"><Link app={app} to="/" className="back-link"><Icon name="left" size={16}/> Back to your learning space</Link><h2>{title}</h2><p>{otp?<>Enter the six-digit code sent to <strong>{form.email}</strong>. Your password alone does not complete sign-in.</>:register?'A complete profile helps connect the right student and teacher.':forgot?'Request a password-reset link to your account email.':reset?'Choose a new password. Your next sign-in will also require an email code.':'Use your password, then verify the one-time code sent to your email.'}</p>
+ {register&&!complete&&<div className="signup-progress"><span className={step===1&&!otp?'active':''}>1 · Account</span><span className={step===2&&!otp?'active':''}>2 · Your profile</span><span className={otp?'active':''}>3 · Email OTP</span></div>}
+ {error&&<Alert>{error}</Alert>}{message&&<Alert kind="success">{message}</Alert>}
+ {!complete&&<form className="auth-form" onSubmit={submit}>
+  {otp?<><label className="field"><span>Email verification code</span><input className="otp-input" aria-label="Email verification code" type="text" inputMode="numeric" pattern="[0-9]{6}" autoComplete="one-time-code" value={code} onChange={e=>setCode(e.target.value.replace(/\D/g,'').slice(0,6))} required minLength={6} maxLength={6} placeholder="000000" autoFocus/></label><div className="otp-controls"><span>{remaining?`Code expires in ${Math.floor(remaining/60)}:${String(remaining%60).padStart(2,'0')}`:'Code expired — request a new one.'}</span><button className="text-btn" type="button" disabled={busy||seconds>0} onClick={resend}>{seconds?`Resend in ${seconds}s`:'Resend code'}</button></div><Button type="submit" disabled={busy||code.length!==6||!remaining} icon="shield">{busy?'Verifying…':'Verify & continue'}</Button><button type="button" className="text-btn" disabled={busy} onClick={()=>{setOtp(null);setStep(1);setMessage('');setCode('');}}>Use another email / return to sign in</button></>:
+  <>
+   {register&&step===1&&<><div className="segmented"><button type="button" className={form.role==='student'?'active':''} onClick={()=>set('role','student')}>I’m a student</button><button type="button" className={form.role==='ulma'?'active':''} onClick={()=>set('role','ulma')}>Apply as a teacher</button></div><label className="field"><span>Your full name</span><input value={form.name} onChange={e=>set('name',e.target.value)} required minLength={2} maxLength={80} autoComplete="name"/></label></>}
+   {(!register||step===1)&&<>{!reset&&<label className="field"><span>Email address</span><input value={form.email} onChange={e=>set('email',e.target.value)} type="email" required maxLength={254} autoComplete="email" placeholder="you@example.com"/></label>}{!forgot&&<label className="field"><span>{reset?'New password':'Password'}</span><div className="password-field"><input value={form.password} onChange={e=>set('password',e.target.value)} type={show?'text':'password'} required minLength={register||reset?10:1} maxLength={72} autoComplete={register||reset?'new-password':'current-password'} placeholder={register||reset?'At least 10 characters':'Your password'}/><button type="button" className="icon-btn" aria-label={show?'Hide password':'Show password'} onClick={()=>setShow(v=>!v)}><Icon name="eye"/></button></div></label>}</>}
+   {register&&step===2&&<><LocationFields value={form} onChange={setForm} id="signup"/>{form.role==='ulma'&&<div className="teacher-signup-fields"><h3>Tell us about your teaching</h3><div className="form-grid"><label className="field"><span>Experience (years)</span><input type="number" min="0" max="80" value={form.experience} onChange={e=>set('experience',e.target.value)}/></label><label className="field"><span>Expertise</span><input value={form.expertise} maxLength={300} placeholder="Tajweed, Hifz, Arabic" onChange={e=>set('expertise',e.target.value)}/></label><label className="field full"><span>Short biography</span><textarea value={form.bio} maxLength={3000} rows={3} onChange={e=>set('bio',e.target.value)}/></label></div><Alert kind="info">First verify your email. An administrator must then approve your teaching account. After approval, add your photo, qualifications, courses and weekly availability in Settings.</Alert></div>}</>}
+   {mode==='login'&&<Link app={app} to="/forgot-password" className="forgot-link">Forgot password?</Link>}
+   <div className="auth-actions">{register&&step===2&&<Button type="button" variant="outline" disabled={busy} onClick={()=>setStep(1)}>Back</Button>}<Button type="submit" icon="arrow" disabled={busy}>{busy?'Please wait…':register?(step===1?'Continue to profile':'Create account & send OTP'):forgot?'Send reset link':reset?'Reset password':'Continue with email OTP'}</Button></div>
+  </>}
+ </form>}
+ <p className="auth-switch">{mode==='login'?<>New to Noor? <Link app={app} to={returnTo?`/register?next=${encodeURIComponent(returnTo)}`:`/register${location.search}`}>Create an account</Link></>:<>Already have an account? <Link app={app} to={`/login${location.search}`}>Sign in</Link></>}</p><div className="secure-note"><Icon name="lock" size={14}/> One-time codes expire. No passwords or OTPs are saved in browser storage.</div></div></div>;
+}

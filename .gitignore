@@ -27,3 +27,9 @@ dist-ssr
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Noor v2: never commit private credentials or generated output.
+.env*
+!.env.example
+.vercel/
+coverage/
